@@ -1,27 +1,29 @@
 from flask import Flask, render_template, request, redirect, url_for
-import pandas as pd
 import numpy as np
-import joblib  # Ensure you have joblib installed
-from sklearn.preprocessing import MinMaxScaler
+import joblib
 import logging
 
 app = Flask(__name__)
 
-# Enable logging to debug issues
+# Enable logging for debugging
 logging.basicConfig(level=logging.DEBUG)
 
-# Load your model and scaler
+# Load the model and scaler
 try:
-    model = joblib.load('model.pkl')  # Adjust the path as necessary
-    scaler = joblib.load('minmax_scaler.pkl')  # Ensure you have saved your scaler after fitting
+    model = joblib.load('model.pkl')  # Adjust the path if needed
+    scaler = joblib.load('minmax_scaler.pkl')
 except Exception as e:
     app.logger.error(f"Error loading model or scaler: {e}")
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
+def home():
+    return render_template('home.html')
+
+@app.route('/index', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
         try:
-            # Get form inputs
+            # Extract input data from form
             sunshine = float(request.form['Sunshine'])
             wind_gust_speed = float(request.form['WindGustSpeed'])
             humidity9am = float(request.form['Humidity9am'])
@@ -33,27 +35,19 @@ def index():
             temp3pm = float(request.form['Temp3pm'])
             rain_today = float(request.form['RainToday'])
 
-            # Prepare the input data for prediction
+            # Prepare data for prediction
             input_data = np.array([[sunshine, wind_gust_speed, humidity9am, humidity3pm,
-                                     pressure9am, pressure3pm, cloud9am, cloud3pm, 
-                                     temp3pm, rain_today]])
+                                    pressure9am, pressure3pm, cloud9am, cloud3pm, 
+                                    temp3pm, rain_today]])
 
-            # Log the input data for debugging
-            app.logger.debug(f"Input data: {input_data}")
-
-            # Scale the input data
+            # Scale the data
             input_data_scaled = scaler.transform(input_data)
 
-            # Make the prediction
+            # Make a prediction
             prediction = model.predict(input_data_scaled)
 
-            # Log the prediction for debugging
-            app.logger.debug(f"{prediction}")
-
-            # Prepare the prediction result
+            # Convert prediction to a readable format
             prediction_result = "It will rain tomorrow" if prediction[0] == 1 else "It will not rain tomorrow"
-
-            # Redirect to the result page with the prediction
             return redirect(url_for('result', prediction=prediction_result))
         except Exception as e:
             app.logger.error(f"Error in prediction: {e}")

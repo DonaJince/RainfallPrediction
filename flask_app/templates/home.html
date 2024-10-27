@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rainfall Prediction System</title>
+    <style>
+        /* Basic CSS styling for a clean look */
+        body {
+            background-image: url('https://images.pexels.com/photos/1529360/pexels-photo-1529360.jpeg?cs=srgb&dl=pexels-chetanvlad-1529360.jpg&fm=jpg');
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-size: cover;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            position: relative;
+        }
+
+        /* Gradient overlay */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Semi-transparent dark overlay */
+            z-index: 1; /* Ensure the overlay is on top of the background image */
+        }
+
+        .container {
+            text-align: center;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8));
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            width: 80%;
+            max-width: 700px;
+            backdrop-filter: blur(30px); /* Adds a blur effect to the background */
+            position: relative; /* To position above the overlay */
+            z-index: 2; /* Ensure the container is above the overlay */
+        }
+
+        h1 {
+            color: #00858e;
+            font-size: 4em;
+            margin-bottom: 0.5em;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+            animation: glow 1.5s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 20px #095264, 0 0 30px #095264, 0 0 40px #095264;
+            }
+            to {
+                text-shadow: 0 0 30px #095264, 0 0 40px #095264, 0 0 50px #095264;
+            }
+        }
+
+        p {
+            color: #006786;
+            font-size: 1.6em;
+            margin-bottom: 1.5em;
+            line-height: 1.5;
+        }
+
+        .get-started-btn {
+            padding: 12px 25px;
+            font-size: 1.2em;
+            color: #ffffff;
+            background-color: #087259;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .get-started-btn:hover {
+            background-color: #0056b3;
+            transform: scale(1.05); /* Slightly enlarge button on hover */
+        }
+
+        /* Responsive design */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2em;
+            }
+            p {
+                font-size: 1em;
+            }
+            .get-started-btn {
+                font-size: 1em;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Rainfall Prediction System</h1>
+        <p>Welcome to the Rainfall Prediction System! This application provides insights into the likelihood of rainfall based on weather data, helping you make informed decisions.</p>
+        <a href="{{ url_for('index') }}" class="get-started-btn">Get Started</a>
+    </div>
+</body>
+</html>
